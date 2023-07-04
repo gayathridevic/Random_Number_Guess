@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:numberguessinggame/util/Theme.dart';
+
+void main() {
+  runApp(settings());
+}
 
 class settings extends StatefulWidget {
   const settings({Key? key}) : super(key: key);
@@ -32,21 +37,21 @@ class _settingsState extends State<settings> {
           backgroundColor: Colors.transparent,
           elevation: 0.0,
         ),
-        backgroundColor: HexColor('#00008B'),
+        backgroundColor: ColorConstants.PrimaryColor,
         body: Center(
           child: Container(
             width: 250,
             height: 250,
             child: Card(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
+                //mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Container(
                     width: 250,
                     height: 100,
-                    color: HexColor('#F06313'),
+                    color: ColorConstants.SecondaryColor,
                     child: Card(
-                      color: HexColor('#F06313'),
+                      color: ColorConstants.SecondaryColor,
                       child: Icon(
                         Icons.settings,
                         size: 50,
@@ -69,14 +74,16 @@ class _settingsState extends State<settings> {
                           width: 35,
                         ),
                         Transform.scale(
-                            scale: 1.5,
-                            child: Checkbox(
-                                value: _isChecked,
-                                onChanged: (bool? newValue) {
-                                  setState(() {
-                                    _isChecked = newValue!;
-                                  });
-                                }))
+                          scale: 1.5,
+                          child: Checkbox(
+                            value: _isChecked1,
+                            onChanged: (bool? newValue) {
+                              setState(() {
+                                _isChecked1 = newValue!;
+                              });
+                            },
+                          ),
+                        )
                       ],
                     ),
                   ),
@@ -84,28 +91,25 @@ class _settingsState extends State<settings> {
                     padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
                     child: Row(
                       children: [
-                        GestureDetector(
-                          onTap: () {
-                            AudioPlayer().play(AssetSource('audio/music.mp3'));
-                          },
-                          child: Text(
-                            'Vibrate',
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
-                          ),
+                        Text(
+                          'Vibrate',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
                         ),
                         SizedBox(
                           width: 30,
                         ),
                         Transform.scale(
-                            scale: 1.5,
-                            child: Checkbox(
-                                value: _isChecked1,
-                                onChanged: (bool? newValue1) {
-                                  setState(() {
-                                    _isChecked1 = newValue1!;
-                                  });
-                                }))
+                          scale: 1.5,
+                          child: Checkbox(
+                            value: _isChecked,
+                            onChanged: (bool? newValue1) {
+                              setState(() {
+                                _isChecked = newValue1!;
+                              });
+                            },
+                          ),
+                        )
                       ],
                     ),
                   ),

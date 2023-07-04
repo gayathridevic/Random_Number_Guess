@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:numberguessinggame/homepage.dart';
+import 'package:numberguessinggame/util/Theme.dart';
 
 void main() {
   runApp(Splash());
@@ -44,7 +45,7 @@ class _SplashscreenState extends State<Splashscreen> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        backgroundColor: HexColor('#00008B'),
+        backgroundColor: ColorConstants.PrimaryColor,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -59,7 +60,7 @@ class _SplashscreenState extends State<Splashscreen> {
               style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: HexColor("#FFFFFF")),
+                  color: ColorConstants.kThirdSecondaryColor),
             ),
           ],
         ),
@@ -81,7 +82,7 @@ class _InstructionState extends State<Instruction> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-          backgroundColor: HexColor('#00008B'),
+          backgroundColor: ColorConstants.PrimaryColor,
           body: Center(
             child: Card(
               clipBehavior: Clip.antiAlias,
@@ -143,7 +144,7 @@ class _InstructionState extends State<Instruction> {
                       style: ButtonStyle(
                         fixedSize: MaterialStateProperty.all(Size(180, 50)),
                         backgroundColor: MaterialStateProperty.all<Color>(
-                            HexColor('#F06313')),
+                            ColorConstants.SecondaryColor),
                       ),
                       child: Text(
                         'Start',

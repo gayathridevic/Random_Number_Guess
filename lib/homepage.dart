@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:numberguessinggame/util/Theme.dart';
 import 'dart:math';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:numberguessinggame/winpage.dart';
 import 'package:numberguessinggame/settings.dart';
 import 'package:numberguessinggame/gameover.dart';
@@ -68,12 +68,12 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: HexColor('#00008B'),
+      backgroundColor: ColorConstants.PrimaryColor,
       body: SingleChildScrollView(
         child: Column(
           children: [
             Container(
-              color: Colors.white,
+              color: ColorConstants.kThirdSecondaryColor,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -102,7 +102,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Container(
-              color: Colors.white,
+              color: ColorConstants.kThirdSecondaryColor,
               child: Image.asset(
                 'assets/images/number.jpg',
                 height: 400,
@@ -145,7 +145,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: HexColor('F06313'),
+                        color: ColorConstants.SecondaryColor,
                       ),
                     ),
                   )
@@ -245,14 +245,32 @@ class _HomePageState extends State<HomePage> {
     guessedNumber.clear();
   }
 
+  // Function to display feedback as an alert dialog
   void makeToast(String feedback) {
-    Fluttertoast.showToast(
-      msg: feedback,
-      toastLength: Toast.LENGTH_LONG,
-      gravity: ToastGravity.BOTTOM,
-      backgroundColor: HexColor('#F06313'),
-      textColor: HexColor('#F06313'),
-      fontSize: 25,
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          width: 100,
+          height: 100,
+          child: AlertDialog(
+            backgroundColor: HexColor('F06313'),
+            title: Center(
+              child: Column(
+                children: [
+                  Text(
+                    feedback,
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

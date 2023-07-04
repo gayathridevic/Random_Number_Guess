@@ -2,21 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:numberguessinggame/SplashScreen.dart';
-import 'package:numberguessinggame/homepage.dart';
+import 'package:numberguessinggame/util/Theme.dart';
 
-class winpage extends StatefulWidget {
+class winpage extends StatelessWidget {
   const winpage({Key? key}) : super(key: key);
 
-  @override
-  State<winpage> createState() => _winpageState();
-}
-
-class _winpageState extends State<winpage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: HexColor('#00008B'),
+        backgroundColor: ColorConstants.PrimaryColor,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,

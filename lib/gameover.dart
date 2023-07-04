@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:numberguessinggame/SplashScreen.dart';
+import 'package:numberguessinggame/util/Theme.dart';
 
 void main() {
   runApp(gameover());
 }
 
-class gameover extends StatefulWidget {
+class gameover extends StatelessWidget {
   const gameover({Key? key}) : super(key: key);
 
-  @override
-  State<gameover> createState() => _gameoverState();
-}
-
-class _gameoverState extends State<gameover> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -34,7 +30,7 @@ class _gameoverState extends State<gameover> {
                 style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white),
+                    color: ColorConstants.kThirdSecondaryColor),
               ),
             ),
           ],
