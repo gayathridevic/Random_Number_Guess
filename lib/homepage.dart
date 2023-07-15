@@ -31,8 +31,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int numberOfTries = 0;
-  int numberOfTimes = 5;
+  int currentTryCount = 0;
+  final int maxTriesAllowed = 5;
   bool _validate = false;
 
   final guessedNumber = TextEditingController();
@@ -49,22 +49,6 @@ class _HomePageState extends State<HomePage> {
 
   void generateRandomNumber() {
     randomNumber = ran.nextInt(20) + 1;
-  }
-
-  void decreaseNumberOfTimes() {
-    setState(() {
-      numberOfTimes--;
-      if (numberOfTimes == 0) {
-        // makeToast(
-        //     "Game Over! Your Number of Tries is: $numberOfTries. My number is: $randomNumber");
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => gameover(),
-          ),
-        );
-      }
-    });
   }
 
   @override
@@ -138,7 +122,7 @@ class _HomePageState extends State<HomePage> {
                       height: 50,
                       child: Center(
                         child: Text(
-                          "$numberOfTimes",
+                          "$maxTriesAllowed",
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -202,7 +186,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _submit() {
-    decreaseNumberOfTimes();
+    SystemChannels.textInput.invokeMethod('TextInput.hide');
 
     int guess = int.parse(guessedNumber.text);
 
@@ -211,18 +195,31 @@ class _HomePageState extends State<HomePage> {
       guessedNumber.clear();
       return;
     }
-    numberOfTries++;
+
+    currentTryCount++;
+    if (currentTryCount == maxTriesAllowed-1 && guess != randomNumber) {
+      makeToast(
+          "Game Over! Your Number of Tries is: $currentTryCount+1. My number is: $randomNumber");
+      currentTryCount = 0;
+
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(
+      //     builder: (context) => gameover(),
+      //   ),
+      // );
+      // generateRandomNumber();
+      // guessedNumber.clear();
+      return;
+    }
 
     if (guess > randomNumber) {
-      makeToast("Lower! Number of Tries is: $numberOfTries");
-    } else if (guess <= randomNumber) {
-      makeToast("Higher! Number of Tries is: $numberOfTries");
-    } else if (numberOfTries == numberOfTimes && guess != randomNumber) {
-      makeToast(
-          "Game Over! Your Number of Tries is: $numberOfTries. My number is: $randomNumber");
+      makeToast("Lower! Number of Tries is: $currentTryCount");
+    } else if (guess < randomNumber) {
+      makeToast("Higher! Number of Tries is: $currentTryCount");
     } else {
-      makeToast("That's right. You Win! Number of Tries is: $numberOfTries");
-      numberOfTries = 0;
+      makeToast("That's right. You Win! Number of Tries is: $currentTryCount");
+      currentTryCount = 0;
       generateRandomNumber();
       Navigator.push(
         context,
@@ -234,21 +231,6 @@ class _HomePageState extends State<HomePage> {
 
     guessedNumber.clear();
 
-    // if (numberOfTries == numberOfTimes && guess != randomNumber) {
-    //   makeToast(
-    //       "Game Over! Your Number of Tries is: $numberOfTries. My number is: $randomNumber");
-    //   numberOfTries = 0;
-    //
-    //   Navigator.push(
-    //     context,
-    //     MaterialPageRoute(
-    //       builder: (context) => gameover(),
-    //     ),
-    //   );
-    //   generateRandomNumber();
-    //   guessedNumber.clear();
-    //   return;
-    // }
   }
 
   // Function to display feedback as an alert dialog
