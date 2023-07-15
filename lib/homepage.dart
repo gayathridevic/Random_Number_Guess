@@ -90,8 +90,8 @@ class _HomePageState extends State<HomePage> {
             Container(
               color: ColorConstants.kThirdSecondaryColor,
               child: Image.asset(
-                'assets/images/number.jpg',
-                height: 400,
+                'assets/images/number.gif',
+                height: 350,
                 width: 400,
               ),
             ),
@@ -195,6 +195,7 @@ class _HomePageState extends State<HomePage> {
       guessedNumber.clear();
       return;
     }
+
     currentTryCount++;
     if (currentTryCount == maxTriesAllowed-1 && guess != randomNumber) {
       makeToast(
@@ -227,7 +228,9 @@ class _HomePageState extends State<HomePage> {
         ),
       );
     }
+
     guessedNumber.clear();
+
   }
 
   // Function to display feedback as an alert dialog
