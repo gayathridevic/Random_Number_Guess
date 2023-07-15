@@ -15,10 +15,27 @@ class settings extends StatefulWidget {
 }
 
 class _settingsState extends State<settings> {
-  final player = AudioCache();
-
   bool _isChecked = false;
-  bool _isChecked1 = false;
+  bool isChecked = false;
+
+  AudioPlayer audioPlayer = AudioPlayer();
+
+  void playAudio() async {
+    //audioPlayer.play(AssetSource('assets/audio/music.mp3'));
+    await audioPlayer.play(AssetSource('audio/music.mp3'));
+    // audioPlayer.play();
+  }
+
+  void stopAudio() async {
+    await audioPlayer.stop();
+  }
+
+  @override
+  void dispose() {
+    audioPlayer.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -76,10 +93,15 @@ class _settingsState extends State<settings> {
                         Transform.scale(
                           scale: 1.5,
                           child: Checkbox(
-                            value: _isChecked1,
+                            value: isChecked,
                             onChanged: (bool? newValue) {
                               setState(() {
-                                _isChecked1 = newValue!;
+                                isChecked = newValue!;
+                                if (isChecked) {
+                                  playAudio();
+                                } else {
+                                  stopAudio();
+                                }
                               });
                             },
                           ),
@@ -91,10 +113,16 @@ class _settingsState extends State<settings> {
                     padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
                     child: Row(
                       children: [
-                        Text(
-                          'Vibrate',
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
+                        GestureDetector(
+                          onTap: () {
+                            final player = AudioPlayer();
+                            player.setSource(AssetSource('music.mp3'));
+                          },
+                          child: Text(
+                            'Vibrate',
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
                         ),
                         SizedBox(
                           width: 30,
@@ -103,9 +131,14 @@ class _settingsState extends State<settings> {
                           scale: 1.5,
                           child: Checkbox(
                             value: _isChecked,
-                            onChanged: (bool? newValue1) {
+                            onChanged: (bool? newValue) {
                               setState(() {
-                                _isChecked = newValue1!;
+                                _isChecked = newValue!;
+                                if (_isChecked) {
+                                  playAudio();
+                                } else {
+                                  stopAudio();
+                                }
                               });
                             },
                           ),

@@ -55,6 +55,8 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       numberOfTimes--;
       if (numberOfTimes == 0) {
+        // makeToast(
+        //     "Game Over! Your Number of Tries is: $numberOfTries. My number is: $randomNumber");
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -104,8 +106,8 @@ class _HomePageState extends State<HomePage> {
             Container(
               color: ColorConstants.kThirdSecondaryColor,
               child: Image.asset(
-                'assets/images/number.jpg',
-                height: 400,
+                'assets/images/number.gif',
+                height: 350,
                 width: 400,
               ),
             ),
@@ -201,7 +203,6 @@ class _HomePageState extends State<HomePage> {
 
   void _submit() {
     decreaseNumberOfTimes();
-    SystemChannels.textInput.invokeMethod('TextInput.hide');
 
     int guess = int.parse(guessedNumber.text);
 
@@ -211,26 +212,14 @@ class _HomePageState extends State<HomePage> {
       return;
     }
     numberOfTries++;
-    if (numberOfTries == numberOfTimes && guess != randomNumber) {
-      makeToast(
-          "Game Over! Your Number of Tries is: $numberOfTries. My number is: $randomNumber");
-      numberOfTries = 0;
-
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => gameover(),
-        ),
-      );
-      generateRandomNumber();
-      guessedNumber.clear();
-      return;
-    }
 
     if (guess > randomNumber) {
       makeToast("Lower! Number of Tries is: $numberOfTries");
-    } else if (guess < randomNumber) {
+    } else if (guess <= randomNumber) {
       makeToast("Higher! Number of Tries is: $numberOfTries");
+    } else if (numberOfTries == numberOfTimes && guess != randomNumber) {
+      makeToast(
+          "Game Over! Your Number of Tries is: $numberOfTries. My number is: $randomNumber");
     } else {
       makeToast("That's right. You Win! Number of Tries is: $numberOfTries");
       numberOfTries = 0;
@@ -242,7 +231,24 @@ class _HomePageState extends State<HomePage> {
         ),
       );
     }
+
     guessedNumber.clear();
+
+    // if (numberOfTries == numberOfTimes && guess != randomNumber) {
+    //   makeToast(
+    //       "Game Over! Your Number of Tries is: $numberOfTries. My number is: $randomNumber");
+    //   numberOfTries = 0;
+    //
+    //   Navigator.push(
+    //     context,
+    //     MaterialPageRoute(
+    //       builder: (context) => gameover(),
+    //     ),
+    //   );
+    //   generateRandomNumber();
+    //   guessedNumber.clear();
+    //   return;
+    // }
   }
 
   // Function to display feedback as an alert dialog
