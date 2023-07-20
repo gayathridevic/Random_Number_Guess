@@ -3,9 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:numberguessinggame/util/Theme.dart';
 import 'dart:math';
-import 'package:numberguessinggame/winpage.dart';
 import 'package:numberguessinggame/settings.dart';
-import 'package:numberguessinggame/gameover.dart';
+import 'package:numberguessinggame/WinGameOverPage.dart';
 
 void main() {
   runApp(MyApp());
@@ -34,6 +33,9 @@ class _HomePageState extends State<HomePage> {
   int currentTryCount = 0;
   final int maxTriesAllowed = 5;
   bool _validate = false;
+  int previousNumber = -1;
+
+  final maxTriesCount = ValueNotifier(5);
 
   final guessedNumber = TextEditingController();
 
@@ -121,13 +123,18 @@ class _HomePageState extends State<HomePage> {
                       width: 50,
                       height: 50,
                       child: Center(
-                        child: Text(
-                          "$maxTriesAllowed",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                        child: ValueListenableBuilder(
+                            valueListenable: maxTriesCount,
+                            builder: (context, value, _) {
+                              return Text(
+                                value.toString(),
+                                key: UniqueKey(),
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              );
+                            }),
                       ),
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
@@ -169,7 +176,11 @@ class _HomePageState extends State<HomePage> {
               width: 150,
               height: 48,
               child: ElevatedButton(
-                onPressed: _submit,
+                onPressed: () {
+                  _submit();
+                  previousNumber = maxTriesCount.value;
+                  maxTriesCount.value = previousNumber - 1;
+                },
                 child: Text(
                   'Submit',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
@@ -197,19 +208,22 @@ class _HomePageState extends State<HomePage> {
     }
 
     currentTryCount++;
-    if (currentTryCount == maxTriesAllowed-1 && guess != randomNumber) {
+    if (currentTryCount == maxTriesAllowed && guess != randomNumber) {
       makeToast(
-          "Game Over! Your Number of Tries is: $currentTryCount+1. My number is: $randomNumber");
+          "Game Over! Your Number of Tries is: $currentTryCount. My number is: $randomNumber");
       currentTryCount = 0;
 
-      // Navigator.push(
-      //   context,
-      //   MaterialPageRoute(
-      //     builder: (context) => gameover(),
-      //   ),
-      // );
-      // generateRandomNumber();
-      // guessedNumber.clear();
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => WinGameOverPage(
+            result: GameResult.gameover,
+            randomNumber: randomNumber,
+          ),
+        ),
+      );
+      generateRandomNumber();
+      guessedNumber.clear();
       return;
     }
 
@@ -224,13 +238,15 @@ class _HomePageState extends State<HomePage> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => winpage(),
+          builder: (context) => WinGameOverPage(
+            result: GameResult.win,
+            randomNumber: randomNumber,
+          ),
         ),
       );
     }
 
     guessedNumber.clear();
-
   }
 
   // Function to display feedback as an alert dialog
